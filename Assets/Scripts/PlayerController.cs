@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,9 +11,12 @@ public class PlayerController : MonoBehaviour
     BoxCollider2D ratCollider;
     GameObject humanModel;
     GameObject ratModel;
+    Animator anim;
+    bool isHuman;
     // Start is called before the first frame update
     void Start()
     {
+        isHuman = true;
         humanCollider = GetComponent<CapsuleCollider2D>();
         humanCollider.enabled = true;
         ratCollider = GetComponent<BoxCollider2D>();
@@ -21,6 +25,7 @@ public class PlayerController : MonoBehaviour
         humanModel.SetActive(true);
         ratModel = transform.GetChild(1).gameObject;
         ratModel.SetActive(false);
+        anim = humanModel.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -32,17 +37,32 @@ public class PlayerController : MonoBehaviour
     void updateMovement() {
         if (Input.GetKey(KeyCode.W)) {
             transform.Translate(Vector2.up * MoveSpeed * Time.deltaTime);
+            if (isHuman) {
+                anim.Play("Run");
+            }
         }
         if (Input.GetKey(KeyCode.A)) {
             Flip(true);
             transform.Translate(Vector2.left * MoveSpeed * Time.deltaTime);
+            if (isHuman) {
+                anim.Play("Run");
+            }
         }
         if (Input.GetKey(KeyCode.S)) {
             transform.Translate(Vector2.down * MoveSpeed * Time.deltaTime);
+            if (isHuman) {
+                anim.Play("Run");
+            }
         }
         if (Input.GetKey(KeyCode.D)) {
             Flip(false);
             transform.Translate(Vector2.right * MoveSpeed * Time.deltaTime);
+            if (isHuman) {
+                anim.Play("Run");
+            }
+        }
+        if (isHuman && Input.GetKey(KeyCode.Space)) {
+            anim.Play("Attack");
         }
     }
 
@@ -66,10 +86,28 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("RatChange")) {
             playerTransform(true);
             Destroy(collision.gameObject);
+            isHuman = false;
         }
         if (collision.CompareTag("HumanChange")) {
             playerTransform(false);
             Destroy(collision.gameObject);
+            isHuman = true;
         }
+        if (collision.CompareTag("ToLevel0") && isHuman) {
+            SceneManager.LoadScene("level0");
+        }
+        if (collision.CompareTag("ToLevel1") && isHuman) {
+            SceneManager.LoadScene("level1");
+        }
+        if (collision.CompareTag("ToLevel2") && isHuman) {
+            SceneManager.LoadScene("level2");
+        }
+        if (collision.CompareTag("ToEndScene") && isHuman) {
+            SceneManager.LoadScene("endScene");
+        }
+    }
+
+    private void attack() {
+        anim.Play("Attack");
     }
 }
