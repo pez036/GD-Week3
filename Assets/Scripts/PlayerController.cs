@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControl : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     public float MoveSpeed = 6;
     public float PlayerSize = 1.5f;
@@ -31,18 +31,18 @@ public class PlayerControl : MonoBehaviour
 
     void updateMovement() {
         if (Input.GetKey(KeyCode.W)) {
-            transform.transform.Translate(Vector2.up * MoveSpeed * Time.deltaTime);
+            transform.Translate(Vector2.up * MoveSpeed * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.A)) {
             Flip(true);
-            transform.transform.Translate(Vector2.left * MoveSpeed * Time.deltaTime);
+            transform.Translate(Vector2.left * MoveSpeed * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.S)) {
-            transform.transform.Translate(Vector2.down * MoveSpeed * Time.deltaTime);
+            transform.Translate(Vector2.down * MoveSpeed * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.D)) {
             Flip(false);
-            transform.transform.Translate(Vector2.right * MoveSpeed * Time.deltaTime);
+            transform.Translate(Vector2.right * MoveSpeed * Time.deltaTime);
         }
     }
 
