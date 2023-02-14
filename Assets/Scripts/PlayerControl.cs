@@ -5,11 +5,22 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     public float MoveSpeed = 6;
-    public float playerSize = 1.5f;
+    public float PlayerSize = 1.5f;
+    CapsuleCollider2D humanCollider;
+    BoxCollider2D ratCollider;
+    GameObject humanModel;
+    GameObject ratModel;
     // Start is called before the first frame update
     void Start()
     {
-        
+        humanCollider = GetComponent<CapsuleCollider2D>();
+        humanCollider.enabled = true;
+        ratCollider = GetComponent<BoxCollider2D>();
+        ratCollider.enabled = false;
+        humanModel = transform.GetChild(0).gameObject;
+        humanModel.SetActive(true);
+        ratModel = transform.GetChild(1).gameObject;
+        ratModel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -36,18 +47,28 @@ public class PlayerControl : MonoBehaviour
     }
 
     protected void Flip(bool bLeft) {
-        transform.localScale = new Vector3(bLeft ? playerSize : -playerSize, playerSize, playerSize);
+        transform.localScale = new Vector3(bLeft ? PlayerSize : -PlayerSize, PlayerSize, PlayerSize);
     }
-
+    private void playerTransform(bool toRat) {
+        if (toRat) {
+            humanCollider.enabled = false;
+            humanModel.SetActive(false);
+            ratCollider.enabled = true;
+            ratModel.SetActive(true);
+        } else {
+            humanCollider.enabled = true;
+            humanModel.SetActive(true);
+            ratCollider.enabled = false;
+            ratModel.SetActive(false);
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.CompareTag("RatChange")) {
-            playerSize = 1f;
-            Flip(false);
+            playerTransform(true);
             Destroy(collision.gameObject);
         }
         if (collision.CompareTag("HumanChange")) {
-            playerSize = 1.5f;
-            Flip(false);
+            playerTransform(false);
             Destroy(collision.gameObject);
         }
     }
