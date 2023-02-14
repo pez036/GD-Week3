@@ -9,6 +9,8 @@ TagManager:
   - Wall
   - RatChange
   - HumanChange
+  - LevelEnd1
+  - LevelEnd2
   layers:
   - Default
   - TransparentFX
