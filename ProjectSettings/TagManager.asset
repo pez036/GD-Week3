@@ -11,6 +11,11 @@ TagManager:
   - HumanChange
   - LevelEnd1
   - LevelEnd2
+  - LevelEnd0
+  - ToLevel0
+  - ToLevel1
+  - ToLevel2
+  - ToEndScene
   layers:
   - Default
   - TransparentFX

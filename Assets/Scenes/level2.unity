@@ -8585,7 +8585,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.026295513, y: -0.026679583}
+  m_Offset: {x: -0.026295364, y: -0.02301924}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -8596,7 +8596,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.45906198, y: 0.18782537}
+  m_Size: {x: 0.517628, y: 0.26835284}
   m_EdgeRadius: 0
 --- !u!1 &1249377031
 GameObject:
@@ -8721,7 +8721,7 @@ GameObject:
   - component: {fileID: 1399377058}
   m_Layer: 0
   m_Name: LevelEndGate
-  m_TagString: LevelEnd2
+  m_TagString: ToEndScene
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

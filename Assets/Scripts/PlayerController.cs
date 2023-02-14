@@ -93,11 +93,17 @@ public class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
             isHuman = true;
         }
-        if (collision.CompareTag("LevelEnd1") && isHuman) {
+        if (collision.CompareTag("ToLevel0") && isHuman) {
+            SceneManager.LoadScene("level0");
+        }
+        if (collision.CompareTag("ToLevel1") && isHuman) {
+            SceneManager.LoadScene("level1");
+        }
+        if (collision.CompareTag("ToLevel2") && isHuman) {
             SceneManager.LoadScene("level2");
         }
-        if (collision.CompareTag("LevelEnd2") && isHuman) {
-            SceneManager.LoadScene("level2");
+        if (collision.CompareTag("ToEndScene") && isHuman) {
+            SceneManager.LoadScene("endScene");
         }
     }
 
