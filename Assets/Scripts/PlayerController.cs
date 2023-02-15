@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     bool isHuman;
     
     [SerializeField] private AudioSource doorSFX;
+    [SerializeField] private AudioSource metalFootsteps;
+    [SerializeField] private AudioSource ratFootsteps;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +44,7 @@ public class PlayerController : MonoBehaviour
             transform.Translate(Vector2.up * MoveSpeed * Time.deltaTime);
             if (isHuman) {
                 anim.Play("Run");
+                
             }
         }
         if (Input.GetKey(KeyCode.A)) {
@@ -49,12 +52,14 @@ public class PlayerController : MonoBehaviour
             transform.Translate(Vector2.left * MoveSpeed * Time.deltaTime);
             if (isHuman) {
                 anim.Play("Run");
+                
             }
         }
         if (Input.GetKey(KeyCode.S)) {
             transform.Translate(Vector2.down * MoveSpeed * Time.deltaTime);
             if (isHuman) {
                 anim.Play("Run");
+                
             }
         }
         if (Input.GetKey(KeyCode.D)) {
@@ -62,8 +67,25 @@ public class PlayerController : MonoBehaviour
             transform.Translate(Vector2.right * MoveSpeed * Time.deltaTime);
             if (isHuman) {
                 anim.Play("Run");
+                
             }
         }
+
+        if((Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.W))){
+            if(isHuman){
+                metalFootsteps.enabled = true;
+                ratFootsteps.enabled = false;
+            }
+            else{
+                ratFootsteps.enabled = true;
+                metalFootsteps.enabled = false;
+            }
+        }
+        else{
+            ratFootsteps.enabled = false;
+            metalFootsteps.enabled = false;
+        }
+
         if (isHuman && Input.GetKey(KeyCode.Space)) {
             anim.Play("Attack");
         }
