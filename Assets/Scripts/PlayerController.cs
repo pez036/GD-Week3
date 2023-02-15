@@ -7,12 +7,15 @@ public class PlayerController : MonoBehaviour
 {
     public float MoveSpeed = 6;
     public float PlayerSize = 1.5f;
+    public Transform attackPoint;
+    public LayerMask breakableLayer;
     CapsuleCollider2D humanCollider;
     BoxCollider2D ratCollider;
     GameObject humanModel;
     GameObject ratModel;
     Animator anim;
     bool isHuman;
+    float attackRange = 1f;
     
     [SerializeField] private AudioSource doorSFX;
     [SerializeField] private AudioSource metalFootsteps;
@@ -88,6 +91,7 @@ public class PlayerController : MonoBehaviour
 
         if (isHuman && Input.GetKey(KeyCode.Space)) {
             anim.Play("Attack");
+            attack();
         }
     }
 
@@ -138,7 +142,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D collision){
-        Debug.Log(collision.gameObject.tag);
+        //Debug.Log(collision.gameObject.tag);
         if(collision.collider.CompareTag("box")){
             GameObject[] boxes = GameObject.FindGameObjectsWithTag("box");
             if(!isHuman){
@@ -149,7 +153,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
             else{
-                Debug.Log("human");
+                //Debug.Log("human");
                 foreach (GameObject box in boxes)
                 {
                     box.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
@@ -160,5 +164,16 @@ public class PlayerController : MonoBehaviour
 
     private void attack() {
         anim.Play("Attack");
+        Collider2D[] hitBreakbles = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, breakableLayer);
+        foreach (Collider2D item in hitBreakbles) {
+            Destroy(item.gameObject);
+        }
+    }
+
+    private void OnDrawGizmosSelected() {
+        if (attackPoint == null) {
+            return;
+        }
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

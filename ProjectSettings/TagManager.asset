@@ -18,11 +18,12 @@ TagManager:
   - ToEndScene
   - lvl1wire
   - box
+  - breakable
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Breakable
   - Water
   - UI
   - 
