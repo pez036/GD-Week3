@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class chewWire : MonoBehaviour
+public class restart : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,5 +15,9 @@ public class chewWire : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void Restart(){
+        SceneManager.LoadScene("level2");
     }
 }

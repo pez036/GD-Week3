@@ -137,6 +137,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision){
+        Debug.Log(collision.gameObject.tag);
+        if(collision.collider.CompareTag("box")){
+            GameObject[] boxes = GameObject.FindGameObjectsWithTag("box");
+            if(!isHuman){
+                //then add restart button
+                foreach (GameObject box in boxes)
+                {
+                    box.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+                }
+            }
+            else{
+                Debug.Log("human");
+                foreach (GameObject box in boxes)
+                {
+                    box.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                }                
+            }
+        }
+    }
+
     private void attack() {
         anim.Play("Attack");
     }
