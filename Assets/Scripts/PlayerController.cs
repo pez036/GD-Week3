@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     GameObject ratModel;
     Animator anim;
     bool isHuman;
+    
+    [SerializeField] private AudioSource doorSFX;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +28,7 @@ public class PlayerController : MonoBehaviour
         ratModel = transform.GetChild(1).gameObject;
         ratModel.SetActive(false);
         anim = humanModel.GetComponent<Animator>();
+        
     }
 
     // Update is called once per frame
@@ -104,6 +107,11 @@ public class PlayerController : MonoBehaviour
         }
         if (collision.CompareTag("ToEndScene") && isHuman) {
             SceneManager.LoadScene("endScene");
+        }
+        if(collision.CompareTag("lvl1wire") && !isHuman && GameObject.Find("lvl1door").gameObject){
+            doorSFX.Play();
+            Destroy(collision.gameObject);
+            Destroy(GameObject.Find("lvl1door").gameObject);
         }
     }
 

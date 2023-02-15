@@ -16,6 +16,7 @@ TagManager:
   - ToLevel1
   - ToLevel2
   - ToEndScene
+  - lvl1wire
   layers:
   - Default
   - TransparentFX
