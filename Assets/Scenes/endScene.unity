@@ -895,7 +895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followSpeed: 10
-  player: {fileID: 0}
+  player: {fileID: 439810131}
 --- !u!1 &716539424
 GameObject:
   m_ObjectHideFlags: 0

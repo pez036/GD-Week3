@@ -108,12 +108,12 @@ public class PlayerController : MonoBehaviour
         }
     }
     private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.CompareTag("RatChange")) {
+        if (isHuman && collision.CompareTag("RatChange")) {
             playerTransform(true);
             Destroy(collision.gameObject);
             isHuman = false;
         }
-        if (collision.CompareTag("HumanChange")) {
+        if (!isHuman && collision.CompareTag("HumanChange")) {
             playerTransform(false);
             Destroy(collision.gameObject);
             isHuman = true;
