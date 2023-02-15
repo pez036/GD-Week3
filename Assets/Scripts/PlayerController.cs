@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour
     GameObject ratModel;
     Animator anim;
     bool isHuman;
+    
+    [SerializeField] private AudioSource doorSFX;
+    [SerializeField] private AudioSource metalFootsteps;
+    [SerializeField] private AudioSource ratFootsteps;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +30,7 @@ public class PlayerController : MonoBehaviour
         ratModel = transform.GetChild(1).gameObject;
         ratModel.SetActive(false);
         anim = humanModel.GetComponent<Animator>();
+        
     }
 
     // Update is called once per frame
@@ -39,6 +44,7 @@ public class PlayerController : MonoBehaviour
             transform.Translate(Vector2.up * MoveSpeed * Time.deltaTime);
             if (isHuman) {
                 anim.Play("Run");
+                
             }
         }
         if (Input.GetKey(KeyCode.A)) {
@@ -46,12 +52,14 @@ public class PlayerController : MonoBehaviour
             transform.Translate(Vector2.left * MoveSpeed * Time.deltaTime);
             if (isHuman) {
                 anim.Play("Run");
+                
             }
         }
         if (Input.GetKey(KeyCode.S)) {
             transform.Translate(Vector2.down * MoveSpeed * Time.deltaTime);
             if (isHuman) {
                 anim.Play("Run");
+                
             }
         }
         if (Input.GetKey(KeyCode.D)) {
@@ -59,8 +67,25 @@ public class PlayerController : MonoBehaviour
             transform.Translate(Vector2.right * MoveSpeed * Time.deltaTime);
             if (isHuman) {
                 anim.Play("Run");
+                
             }
         }
+
+        if((Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.W))){
+            if(isHuman){
+                metalFootsteps.enabled = true;
+                ratFootsteps.enabled = false;
+            }
+            else{
+                ratFootsteps.enabled = true;
+                metalFootsteps.enabled = false;
+            }
+        }
+        else{
+            ratFootsteps.enabled = false;
+            metalFootsteps.enabled = false;
+        }
+
         if (isHuman && Input.GetKey(KeyCode.Space)) {
             anim.Play("Attack");
         }
@@ -83,12 +108,12 @@ public class PlayerController : MonoBehaviour
         }
     }
     private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.CompareTag("RatChange")) {
+        if (isHuman && collision.CompareTag("RatChange")) {
             playerTransform(true);
             Destroy(collision.gameObject);
             isHuman = false;
         }
-        if (collision.CompareTag("HumanChange")) {
+        if (!isHuman && collision.CompareTag("HumanChange")) {
             playerTransform(false);
             Destroy(collision.gameObject);
             isHuman = true;
@@ -104,6 +129,32 @@ public class PlayerController : MonoBehaviour
         }
         if (collision.CompareTag("ToEndScene") && isHuman) {
             SceneManager.LoadScene("endScene");
+        }
+        if(collision.CompareTag("lvl1wire") && !isHuman && GameObject.Find("lvl1door").gameObject){
+            doorSFX.Play();
+            Destroy(collision.gameObject);
+            Destroy(GameObject.Find("lvl1door").gameObject);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision){
+        Debug.Log(collision.gameObject.tag);
+        if(collision.collider.CompareTag("box")){
+            GameObject[] boxes = GameObject.FindGameObjectsWithTag("box");
+            if(!isHuman){
+                //then add restart button
+                foreach (GameObject box in boxes)
+                {
+                    box.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+                }
+            }
+            else{
+                Debug.Log("human");
+                foreach (GameObject box in boxes)
+                {
+                    box.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                }                
+            }
         }
     }
 
